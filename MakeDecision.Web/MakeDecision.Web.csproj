@@ -65,7 +65,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CycleController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KeyDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -75,8 +77,10 @@
     <Compile Include="Models\Cycle.cs" />
     <Compile Include="Models\CycleRepository.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\DepartmentRepository.cs" />
+    <Compile Include="Models\KeyDataRepository.cs" />
     <Compile Include="Models\MakeDecisionWebContext.cs" />
-    <Compile Include="Models\ProductionTech.cs" />
+    <Compile Include="Models\KeyData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +195,42 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Category\_CreateOrEdit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Department\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Department\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Department\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Department\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Department\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Department\_CreateOrEdit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\KeyData\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\KeyData\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\KeyData\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\KeyData\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\KeyData\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\KeyData\_CreateOrEdit.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

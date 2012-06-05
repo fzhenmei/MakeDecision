@@ -1,0 +1,26 @@
+@model MakeDecision.Web.Models.Department
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Department</legend>
+
+    <div class="display-label">DepartmentName</div>
+    <div class="display-field">@Model.DepartmentName</div>
+
+    <div class="display-label">Categories</div>
+    <div class="display-field">@(Model.Categories == null ? "None" : Model.Categories.Count.ToString())</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+

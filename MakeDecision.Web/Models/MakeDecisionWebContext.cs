@@ -20,5 +20,9 @@ namespace MakeDecision.Web.Models
         public DbSet<MakeDecision.Web.Models.Cycle> Cycles { get; set; }
 
         public DbSet<MakeDecision.Web.Models.Category> Categories { get; set; }
+
+        public DbSet<MakeDecision.Web.Models.Department> Departments { get; set; }
+
+        public DbSet<MakeDecision.Web.Models.KeyData> KeyDatas { get; set; }
     }
 }

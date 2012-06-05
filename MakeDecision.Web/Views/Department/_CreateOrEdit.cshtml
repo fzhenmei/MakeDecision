@@ -1,0 +1,12 @@
+@model MakeDecision.Web.Models.Department
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.DepartmentName)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.DepartmentName)
+    @Html.ValidationMessageFor(model => model.DepartmentName)
+</div>
+

@@ -1,0 +1,23 @@
+@model MakeDecision.Web.Models.Department
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Department</legend>
+
+    <div class="display-label">DepartmentName</div>
+    <div class="display-field">@Model.DepartmentName</div>
+
+    <div class="display-label">Categories</div>
+    <div class="display-field">@(Model.Categories == null ? "None" : Model.Categories.Count.ToString())</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
