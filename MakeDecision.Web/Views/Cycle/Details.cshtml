@@ -1,0 +1,20 @@
+@model MakeDecision.Web.Models.Cycle
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Cycle</legend>
+
+    <div class="display-label">CycleName</div>
+    <div class="display-field">@Model.CycleName</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+

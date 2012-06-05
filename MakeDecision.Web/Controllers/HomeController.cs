@@ -10,7 +10,7 @@ namespace MakeDecision.Web.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
+            ViewBag.Message = "欢迎使用领导决策系统数据收集";
 
             return View();
         }

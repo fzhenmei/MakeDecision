@@ -1,0 +1,47 @@
+@model IEnumerable<MakeDecision.Web.Models.Category>
+
+@{
+    ViewBag.Title = "数据分类列表";
+}
+
+<h2>数据分类列表</h2>
+
+<p>
+    @Html.ActionLink("新建分类", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            分类名称
+        </th>
+        <th>
+            所属部门
+        </th>
+        <th>
+            更新周期
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+			@item.CategoryName
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.Department).ToString()
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.Cycle).ToString()
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+

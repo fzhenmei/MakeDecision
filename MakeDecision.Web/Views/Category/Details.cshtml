@@ -1,0 +1,26 @@
+@model MakeDecision.Web.Models.Category
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Category</legend>
+
+    <div class="display-label">CategoryName</div>
+    <div class="display-field">@Model.CategoryName</div>
+
+    <div class="display-label">Department</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.Department).ToString()</div>
+
+    <div class="display-label">Cycle</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.Cycle).ToString()</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+

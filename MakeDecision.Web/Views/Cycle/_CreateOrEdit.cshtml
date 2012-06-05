@@ -1,0 +1,12 @@
+@model MakeDecision.Web.Models.Cycle
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.CycleName)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.CycleName)
+    @Html.ValidationMessageFor(model => model.CycleName)
+</div>
+
