@@ -1,7 +1,7 @@
 @model MakeDecision.Web.Models.Category
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "新建分类";
 }
 
 <h2>Create</h2>
@@ -9,18 +9,16 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Category</legend>
-
+        <legend>分类</legend>
 		@Html.Partial("_CreateOrEdit", Model)
-
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="新建" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("返回列表", "Index")
 </div>
 
 

@@ -29,10 +29,10 @@
 			@Html.ActionLink(@item.CategoryName, "Details", new { id = item.Id })
         </td>
         <td>
-			@Html.DisplayTextFor(_ => item.Department).ToString()
+			@Html.DisplayTextFor(_ => item.Department.DepartmentName).ToString()
         </td>
         <td>
-			@Html.DisplayTextFor(_ => item.Cycle).ToString()
+			@Html.DisplayTextFor(_ => item.Cycle.CycleName).ToString()
         </td>
         <td>
             @Html.ActionLink("ÐÞ¸Ä", "Edit", new { id = item.Id }) |

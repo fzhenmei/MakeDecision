@@ -6,17 +6,17 @@ namespace MakeDecision.Web.Models
     {
         public int Id { get; set; }
 
-        //public int DeptmentId { get; set; } //?
+        [Display(Name = "部门")]
+        public int DepartmentId { get; set; } 
 
-        //public int CycleTypeId { get; set; } //?
+        [Display(Name = "更新周期")]
+        public int CycleId { get; set; }
 
         [Display(Name = "分类名称")]
         public string CategoryName { get; set; }
 
-        [Display(Name = "部门")]
-        public virtual Department Department { get; set; }
+        public Department Department { get; set; }
 
-        [Display(Name = "更新周期")]
-        public virtual Cycle Cycle { get; set; }
+        public Cycle Cycle { get; set; }
     }
 }

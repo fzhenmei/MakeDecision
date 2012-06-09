@@ -1,24 +1,26 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MakeDecision.Web.Models;
 
 namespace MakeDecision.Web.Controllers
-{   
+{
     public class CategoryController : Controller
     {
-		private readonly ICategoryRepository categoryRepository;
+        private readonly ICategoryRepository categoryRepository;
+        private readonly ICycleRepository cycleRepository;
+        private readonly IDepartmentRepository departmentRepository;
 
-		// If you are using Dependency Injection, you can delete the following constructor
-        public CategoryController() : this(new CategoryRepository())
+        // If you are using Dependency Injection, you can delete the following constructor
+        public CategoryController() : this(new CategoryRepository(), new DepartmentRepository(), new CycleRepository())
         {
         }
 
-        public CategoryController(ICategoryRepository categoryRepository)
+        public CategoryController(ICategoryRepository categoryRepository, IDepartmentRepository departmentRepository,
+                                  ICycleRepository cycleRepository)
         {
-			this.categoryRepository = categoryRepository;
+            this.categoryRepository = categoryRepository;
+            this.departmentRepository = departmentRepository;
+            this.cycleRepository = cycleRepository;
         }
 
         //
@@ -40,10 +42,13 @@ namespace MakeDecision.Web.Controllers
         //
         // GET: /Category/Create
 
-        public ActionResult Create()
+        public ActionResult Create(int departmentId)
         {
-            return View();
-        } 
+            Department dept = departmentRepository.Find(departmentId);
+            var category = new Category {DepartmentId = dept.Id, Department = dept};
+            PopulateCyclesDropDownList();
+            return View(category);
+        }
 
         //
         // POST: /Category/Create
@@ -51,21 +56,24 @@ namespace MakeDecision.Web.Controllers
         [HttpPost]
         public ActionResult Create(Category category)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 categoryRepository.InsertOrUpdate(category);
                 categoryRepository.Save();
                 return RedirectToAction("Index");
-            } else {
-				return View();
-			}
+            }
+            else
+            {
+                return View();
+            }
         }
-        
+
         //
         // GET: /Category/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
-             return View(categoryRepository.Find(id));
+            return View(categoryRepository.Find(id));
         }
 
         //
@@ -74,18 +82,21 @@ namespace MakeDecision.Web.Controllers
         [HttpPost]
         public ActionResult Edit(Category category)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 categoryRepository.InsertOrUpdate(category);
                 categoryRepository.Save();
                 return RedirectToAction("Index");
-            } else {
-				return View();
-			}
+            }
+            else
+            {
+                return View();
+            }
         }
 
         //
         // GET: /Category/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             return View(categoryRepository.Find(id));
@@ -105,11 +116,18 @@ namespace MakeDecision.Web.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing) {
+            if (disposing)
+            {
                 categoryRepository.Dispose();
+                departmentRepository.Dispose();
             }
             base.Dispose(disposing);
         }
+
+        private void PopulateCyclesDropDownList(object selectedCycle = null)
+        {
+            var cycles = cycleRepository.All.OrderBy(c => c.CycleName);
+            ViewBag.CycleId = new SelectList(cycles, "Id", "CycleName", selectedCycle);
+        }
     }
 }
-

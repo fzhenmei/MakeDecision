@@ -76,6 +76,7 @@
     <Compile Include="Models\CategoryRepository.cs" />
     <Compile Include="Models\Cycle.cs" />
     <Compile Include="Models\CycleRepository.cs" />
+    <Compile Include="Models\DataInitializer.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\DepartmentRepository.cs" />
     <Compile Include="Models\KeyDataRepository.cs" />

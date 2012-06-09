@@ -10,6 +10,9 @@ namespace MakeDecision.Web.Models
     {
         public int Id { get; set; }
 
+        [Display(Name = "数据分类")]
+        public int CategoryId { get; set; }
+
         /// <summary>
         /// 数据分类
         /// </summary>
@@ -28,7 +31,7 @@ namespace MakeDecision.Web.Models
         /// </summary>
         public int Year { get; set; }
 
-        [Display(Name = "周期")]
+        [Display(Name = "更新周期")]
         public int Cycle { get; set; }
 
         /// <summary>

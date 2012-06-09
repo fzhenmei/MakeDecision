@@ -10,7 +10,11 @@ namespace MakeDecision.Web.Models
         [Display(Name = "部门名称")]
         public string DepartmentName { get; set; }
 
-        [Display(Name = "部门数据分类")]
         public virtual ICollection<Category> Categories { get; set; }
+
+        public override string ToString()
+        {
+            return DepartmentName;
+        }
     }
 }
