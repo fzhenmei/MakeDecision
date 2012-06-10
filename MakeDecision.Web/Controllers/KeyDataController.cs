@@ -1,24 +1,23 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MakeDecision.Web.Models;
 
 namespace MakeDecision.Web.Controllers
-{   
+{
     public class KeyDataController : Controller
     {
-		private readonly IKeyDataRepository keydataRepository;
+        private readonly ICategoryRepository categoryRepository;
+        private readonly IKeyDataRepository keydataRepository;
 
-		// If you are using Dependency Injection, you can delete the following constructor
-        public KeyDataController() : this(new KeyDataRepository())
+        // If you are using Dependency Injection, you can delete the following constructor
+        public KeyDataController() : this(new KeyDataRepository(), new CategoryRepository())
         {
         }
 
-        public KeyDataController(IKeyDataRepository keydataRepository)
+        public KeyDataController(IKeyDataRepository keydataRepository, ICategoryRepository categoryRepository)
         {
-			this.keydataRepository = keydataRepository;
+            this.keydataRepository = keydataRepository;
+            this.categoryRepository = categoryRepository;
         }
 
         //
@@ -26,7 +25,7 @@ namespace MakeDecision.Web.Controllers
 
         public ViewResult Index()
         {
-            return View(keydataRepository.All);
+            return View(keydataRepository.AllIncluding(c => c.Category, c => c.Category.Unit, c=>c.Category.Cycle));
         }
 
         //
@@ -40,10 +39,12 @@ namespace MakeDecision.Web.Controllers
         //
         // GET: /KeyData/Create
 
-        public ActionResult Create()
+        public ActionResult Create(int categoryId)
         {
-            return View();
-        } 
+            var category = categoryRepository.Find(categoryId);
+            var keyData = new KeyData {Category = category, CategoryId = categoryId};
+            return View(keyData);
+        }
 
         //
         // POST: /KeyData/Create
@@ -51,21 +52,26 @@ namespace MakeDecision.Web.Controllers
         [HttpPost]
         public ActionResult Create(KeyData keydata)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
+                keydata.Year = DateTime.Now.Year;
+                keydata.CreateDate = DateTime.Now;
                 keydataRepository.InsertOrUpdate(keydata);
                 keydataRepository.Save();
                 return RedirectToAction("Index");
-            } else {
-				return View();
-			}
+            }
+            else
+            {
+                return View();
+            }
         }
-        
+
         //
         // GET: /KeyData/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
-             return View(keydataRepository.Find(id));
+            return View(keydataRepository.Find(id));
         }
 
         //
@@ -74,18 +80,21 @@ namespace MakeDecision.Web.Controllers
         [HttpPost]
         public ActionResult Edit(KeyData keydata)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 keydataRepository.InsertOrUpdate(keydata);
                 keydataRepository.Save();
                 return RedirectToAction("Index");
-            } else {
-				return View();
-			}
+            }
+            else
+            {
+                return View();
+            }
         }
 
         //
         // GET: /KeyData/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             return View(keydataRepository.Find(id));
@@ -105,11 +114,12 @@ namespace MakeDecision.Web.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing) {
+            if (disposing)
+            {
                 keydataRepository.Dispose();
+                categoryRepository.Dispose();
             }
             base.Dispose(disposing);
         }
     }
 }
-

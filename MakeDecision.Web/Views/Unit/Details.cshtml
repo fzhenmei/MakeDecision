@@ -1,0 +1,20 @@
+@model MakeDecision.Web.Models.Unit
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Unit</legend>
+
+    <div class="display-label">UnitName</div>
+    <div class="display-field">@Model.UnitName</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+

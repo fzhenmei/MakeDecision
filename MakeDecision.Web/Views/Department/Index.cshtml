@@ -1,22 +1,22 @@
 @model IEnumerable<MakeDecision.Web.Models.Department>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "部门管理";
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("新建部门", "Create")
 </p>
 <table>
     <tr>
         <th></th>
         <th>
-            DepartmentName
+            部门名称
         </th>
         <th>
-            Categories
+            分类
         </th>
     </tr>
 
@@ -31,7 +31,7 @@
 			@item.DepartmentName
         </td>
         <td>
-			@(item.Categories == null ? "None" : item.Categories.Count.ToString())
+			@(item.Categories == null ? "0" : item.Categories.Count.ToString())
             @Html.ActionLink("分类", "Create", "Category", new { departmentId = item.Id }, null)
         </td>
     </tr>

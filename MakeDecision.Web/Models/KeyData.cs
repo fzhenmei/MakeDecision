@@ -18,21 +18,15 @@ namespace MakeDecision.Web.Models
         /// </summary>
         public virtual Category Category { get; set; }
 
-        /// <summary>
-        /// 值的单位
-        /// </summary>
-        public int ValueUnit { get; set; }
 
         [Display(Name = "参照值")]
-        public float Value { get; set; }
+        public decimal Value { get; set; }
 
         /// <summary>
         /// 更新年份
         /// </summary>
         public int Year { get; set; }
 
-        [Display(Name = "更新周期")]
-        public int Cycle { get; set; }
 
         /// <summary>
         /// 记录时间

@@ -1,26 +1,26 @@
 @model MakeDecision.Web.Models.KeyData
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "添加数据";
 }
 
-<h2>Create</h2>
+<h2>添加数据</h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>KeyData</legend>
+        <legend>数据</legend>
 
 		@Html.Partial("_CreateOrEdit", Model)
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="添加" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("返回列表", "Index")
 </div>
 
 

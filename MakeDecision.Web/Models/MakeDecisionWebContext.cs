@@ -25,5 +25,7 @@ namespace MakeDecision.Web.Models
         public DbSet<MakeDecision.Web.Models.Department> Departments { get; set; }
 
         public DbSet<MakeDecision.Web.Models.KeyData> KeyDatas { get; set; }
+
+        public DbSet<MakeDecision.Web.Models.Unit> Units { get; set; }
     }
 }

@@ -20,4 +20,10 @@
     @Html.DropDownList("CycleId", String.Empty)
     @Html.ValidationMessageFor(model => model.CycleId)
 </div>
-
+<div class="editor-label">
+    @Html.LabelFor(model => model.UnitId)
+</div>
+<div class="editor-field">
+    @Html.DropDownList("UnitId", String.Empty)
+    @Html.ValidationMessageFor(model => model.UnitId)
+</div>

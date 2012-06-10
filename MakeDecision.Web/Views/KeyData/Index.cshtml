@@ -1,49 +1,38 @@
 @model IEnumerable<MakeDecision.Web.Models.KeyData>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "数据管理";
 }
 
-<h2>Index</h2>
+<h2>数据管理</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("新增", "Create")
 </p>
 <table>
     <tr>
+        <th>
+            分类
+        </th>
+        <th>
+            参考值
+        </th>
+        <th>
+            年
+        </th>
+        <th>
+            更新周期
+        </th>
+        <th>
+            创建时间
+        </th>
         <th></th>
-        <th>
-            Category
-        </th>
-        <th>
-            ValueUnit
-        </th>
-        <th>
-            Value
-        </th>
-        <th>
-            Year
-        </th>
-        <th>
-            Cycle
-        </th>
-        <th>
-            CreateDate
-        </th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-        <td>
-			@Html.DisplayTextFor(_ => item.Category).ToString()
-        </td>
-        <td>
-			@item.ValueUnit
+			@Html.DisplayTextFor(_ => item.Category.CategoryName).ToString()
         </td>
         <td>
 			@item.Value
@@ -52,10 +41,15 @@
 			@item.Year
         </td>
         <td>
-			@item.Cycle
+			@Html.DisplayTextFor(_ => item.Category.Cycle.CycleName).ToString()
         </td>
         <td>
 			@String.Format("{0:g}", item.CreateDate)
+        </td>
+        <td>
+            @Html.ActionLink("编辑", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("明细", "Details", new { id=item.Id }) |
+            @Html.ActionLink("删除", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

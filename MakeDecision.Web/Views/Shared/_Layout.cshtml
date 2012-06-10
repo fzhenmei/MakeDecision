@@ -14,15 +14,16 @@
             <div id="logindisplay">
                 @Html.Partial("_LogOnPartial")
             </div>
-            <div id="menucontainer">
+        </div>
+        <div id="menucontainer">
                 <ul id="menu">
                     <li>@Html.ActionLink("首页", "Index", "Home")</li>
-                    <li>@Html.ActionLink("部门", "Index", "Department")</li>
-                    <li>@Html.ActionLink("周期", "Index", "Cycle")</li>
-                    <li>@Html.ActionLink("分类", "Index", "Category")</li>
+                    <li>@Html.ActionLink("部门管理", "Index", "Department")</li>
+                    <li>@Html.ActionLink("数据单位", "Index", "Unit")</li>
+                    <li>@Html.ActionLink("周期管理", "Index", "Cycle")</li>
+                    <li>@Html.ActionLink("分类管理", "Index", "Category")</li>
                 </ul>
             </div>
-        </div>
         <div id="main">
             @RenderBody()
         </div>

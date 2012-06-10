@@ -69,11 +69,9 @@ namespace MakeDecision.Web.Models
                                    new KeyData
                                        {
                                            Value = 1,
-                                           ValueUnit = 1,
                                            Year = 2012,
                                            CreateDate = DateTime.Now,
                                            Category = categories.First(),
-                                           Cycle = 1 //todo:更新周期的值怎么保存？
                                        }
                                };
             keyDatas.ForEach(c => context.KeyDatas.Add(c));
