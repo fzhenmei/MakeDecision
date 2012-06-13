@@ -27,6 +27,12 @@ namespace MakeDecision.Web.Models
         /// </summary>
         public int Year { get; set; }
 
+        /// <summary>
+        /// 本数据更新周期
+        /// </summary>
+        [Display(Name = "更新周期")]
+        public int CycleValue { get; set; }
+
 
         /// <summary>
         /// 记录时间

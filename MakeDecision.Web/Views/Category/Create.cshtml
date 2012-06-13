@@ -9,7 +9,7 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>分类</legend>
+        <legend>@Html.DisplayTextFor(c => c.Department)的分类</legend>
 		@Html.Partial("_CreateOrEdit", Model)
         <p>
             <input type="submit" value="新建" />
@@ -18,7 +18,7 @@
 }
 
 <div>
-    @Html.ActionLink("返回列表", "Index")
+    @Html.ActionLink("返回分类列表", "Index") | @Html.ActionLink("返回部门列表", "Index", "Department")
 </div>
 
 

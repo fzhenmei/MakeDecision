@@ -1,31 +1,31 @@
 @model IEnumerable<MakeDecision.Web.Models.Cycle>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "数据更新周期管理";
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("新建数据更新周期", "Create")
 </p>
 <table>
     <tr>
-        <th></th>
         <th>
-            CycleName
+            数据更新周期名称
         </th>
+        <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+			@item.CycleName
         </td>
         <td>
-			@item.CycleName
+            @Html.ActionLink("编辑", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("明细", "Details", new { id=item.Id }) |
+            @Html.ActionLink("删除", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

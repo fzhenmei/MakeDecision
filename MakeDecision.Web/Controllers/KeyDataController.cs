@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Web.Mvc;
 using MakeDecision.Web.Models;
 
@@ -25,7 +26,7 @@ namespace MakeDecision.Web.Controllers
 
         public ViewResult Index()
         {
-            return View(keydataRepository.AllIncluding(c => c.Category, c => c.Category.Unit, c=>c.Category.Cycle));
+            return View(keydataRepository.AllIncluding(c => c.Category, c => c.Category.Unit, c => c.Category.Cycle));
         }
 
         //
@@ -41,7 +42,7 @@ namespace MakeDecision.Web.Controllers
 
         public ActionResult Create(int categoryId)
         {
-            var category = categoryRepository.Find(categoryId);
+            Category category = categoryRepository.AllIncluding(c => c.Cycle).Where(c => c.Id == categoryId).Single();
             var keyData = new KeyData {Category = category, CategoryId = categoryId};
             return View(keyData);
         }

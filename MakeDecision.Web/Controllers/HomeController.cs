@@ -10,9 +10,9 @@ namespace MakeDecision.Web.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "欢迎使用领导决策系统数据收集";
+            //ViewBag.Message = "欢迎使用领导决策系统数据收集";
 
-            return View();
+            return Redirect("/KeyData");
         }
 
         public ActionResult About()

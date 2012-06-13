@@ -7,7 +7,7 @@
 <h2>数据管理</h2>
 
 <p>
-    @Html.ActionLink("新增", "Create")
+    @Html.ActionLink("新增", "Create", "KeyData", new { categoryId = 1 }, null)
 </p>
 <table>
     <tr>
@@ -32,23 +32,23 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-			@Html.DisplayTextFor(_ => item.Category.CategoryName).ToString()
+			<div style="width: 200px;">@Html.DisplayTextFor(_ => item.Category.CategoryName).ToString()</div>
         </td>
         <td>
-			@item.Value
+			<div style="width: 150px;">@item.Value</div>
         </td>
         <td>
 			@item.Year
         </td>
         <td>
-			@Html.DisplayTextFor(_ => item.Category.Cycle.CycleName).ToString()
+			@item.CycleValue @Html.DisplayTextFor(_ => item.Category.Cycle.CycleName).ToString()
         </td>
         <td>
-			@String.Format("{0:g}", item.CreateDate)
+			<div style="width: 150px;">@String.Format("{0:g}", item.CreateDate)</div>
         </td>
         <td>
             @Html.ActionLink("编辑", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("明细", "Details", new { id=item.Id }) |
+            @*@Html.ActionLink("明细", "Details", new { id=item.Id }) |*@
             @Html.ActionLink("删除", "Delete", new { id=item.Id })
         </td>
     </tr>

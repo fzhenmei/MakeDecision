@@ -4,35 +4,35 @@
     ViewBag.Title = "部门管理";
 }
 
-<h2>Index</h2>
+<h2>部门管理</h2>
 
 <p>
     @Html.ActionLink("新建部门", "Create")
 </p>
 <table>
     <tr>
-        <th></th>
         <th>
             部门名称
         </th>
         <th>
-            分类
+            含有分类
         </th>
+        <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
+			<div style="min-width: 220px;">@item.DepartmentName</div>
+        </td>
+        <td>
+			@(item.Categories == null ? "0" : item.Categories.Count.ToString())个
+            @Html.ActionLink("管理分类", "Create", "Category", new { departmentId = item.Id }, null)
+        </td>
+        <td>
             @Html.ActionLink("修改", "Edit", new { id=item.Id }) |
             @Html.ActionLink("明细", "Details", new { id=item.Id }) |
             @Html.ActionLink("删除", "Delete", new { id=item.Id })
-        </td>
-        <td>
-			@item.DepartmentName
-        </td>
-        <td>
-			@(item.Categories == null ? "0" : item.Categories.Count.ToString())
-            @Html.ActionLink("分类", "Create", "Category", new { departmentId = item.Id }, null)
         </td>
     </tr>
 }

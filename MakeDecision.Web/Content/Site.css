@@ -103,9 +103,9 @@ header h1, #header h1 {
 #main {
     padding: 30px 30px 15px 30px;
     background-color: #fff;
-    border-radius: 4px 0 0 0;
-    -webkit-border-radius: 4px 0 0 0;
-    -moz-border-radius: 4px 0 0 0;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
 }
 
 footer, 
@@ -126,10 +126,10 @@ footer,
 ----------------------------------------------------------*/
 ul#menu {
     border-bottom: 1px #5C87B2 solid;
-    padding: 0;
-    position: relative;
+    padding: 0 0 0 10px;
+    /*position: relative;*/
     margin: 0;
-    text-align: center;
+    text-align: left;
 }
 
 ul#menu li {

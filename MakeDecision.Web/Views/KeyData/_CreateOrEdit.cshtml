@@ -3,13 +3,16 @@
 @* This partial view defines form fields that will appear when creating and editing entities *@
 
 <div class="editor-label">
-    分类
+    分类：@Html.DisplayTextFor(model => model.Category.CategoryName) @Html.HiddenFor(model => model.CategoryId)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.CycleValue)
 </div>
 <div class="editor-field">
-    @Html.HiddenFor(model => model.CategoryId)
-    @Html.DisplayTextFor(model => model.Category.CategoryName)
+    @Html.EditorFor(model => model.CycleValue)
+    @Html.ValidationMessageFor(model => model.CycleValue)
+    @Html.DisplayTextFor(model => model.Category.Cycle.CycleName).ToString();
 </div>
-
 <div class="editor-label">
     @Html.LabelFor(model => model.Value)
 </div>
