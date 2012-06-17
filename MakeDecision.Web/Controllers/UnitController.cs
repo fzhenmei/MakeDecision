@@ -1,24 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MakeDecision.Web.Models;
 
 namespace MakeDecision.Web.Controllers
-{   
+{
+    [Authorize(Roles = "Admin")]
     public class UnitController : Controller
     {
-		private readonly IUnitRepository unitRepository;
+        private readonly IUnitRepository unitRepository;
 
-		// If you are using Dependency Injection, you can delete the following constructor
+        // If you are using Dependency Injection, you can delete the following constructor
         public UnitController() : this(new UnitRepository())
         {
         }
 
         public UnitController(IUnitRepository unitRepository)
         {
-			this.unitRepository = unitRepository;
+            this.unitRepository = unitRepository;
         }
 
         //
@@ -43,7 +40,7 @@ namespace MakeDecision.Web.Controllers
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
         //
         // POST: /Unit/Create
@@ -51,21 +48,24 @@ namespace MakeDecision.Web.Controllers
         [HttpPost]
         public ActionResult Create(Unit unit)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 unitRepository.InsertOrUpdate(unit);
                 unitRepository.Save();
                 return RedirectToAction("Index");
-            } else {
-				return View();
-			}
+            }
+            else
+            {
+                return View();
+            }
         }
-        
+
         //
         // GET: /Unit/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
-             return View(unitRepository.Find(id));
+            return View(unitRepository.Find(id));
         }
 
         //
@@ -74,18 +74,21 @@ namespace MakeDecision.Web.Controllers
         [HttpPost]
         public ActionResult Edit(Unit unit)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 unitRepository.InsertOrUpdate(unit);
                 unitRepository.Save();
                 return RedirectToAction("Index");
-            } else {
-				return View();
-			}
+            }
+            else
+            {
+                return View();
+            }
         }
 
         //
         // GET: /Unit/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             return View(unitRepository.Find(id));
@@ -105,11 +108,11 @@ namespace MakeDecision.Web.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing) {
+            if (disposing)
+            {
                 unitRepository.Dispose();
             }
             base.Dispose(disposing);
         }
     }
 }
-

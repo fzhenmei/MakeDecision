@@ -48,7 +48,6 @@ namespace MakeDecision.Web.Models
         [Display(Name = "用户名")]
         public string UserName { get; set; }
 
-        [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "邮箱地址")]
         public string Email { get; set; }

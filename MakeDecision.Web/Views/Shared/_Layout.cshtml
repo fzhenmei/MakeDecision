@@ -19,10 +19,14 @@
         <div id="menucontainer">
                 <ul id="menu">
                     <li>@Html.ActionLink("首页", "Index", "Home")</li>
+                    @if (User.Identity.IsAuthenticated && Roles.IsUserInRole(User.Identity.Name, "Admin"))
+                    {
                     <li>@Html.ActionLink("部门管理", "Index", "Department")</li>
                     <li>@Html.ActionLink("数据单位", "Index", "Unit")</li>
                     <li>@Html.ActionLink("周期管理", "Index", "Cycle")</li>
-                    <li>@Html.ActionLink("分类管理", "Index", "Category")</li>
+                    <li>@Html.ActionLink("分类管理", "Index", "Category")</li>    
+                    <li>@Html.ActionLink("添加用户", "Register", "Account")</li>
+                    }
                 </ul>
             </div>
         <div id="main">

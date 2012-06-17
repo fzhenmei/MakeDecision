@@ -5,6 +5,7 @@ using MakeDecision.Web.Models;
 
 namespace MakeDecision.Web.Controllers
 {
+    [Authorize]
     public class KeyDataController : Controller
     {
         private readonly ICategoryRepository categoryRepository;

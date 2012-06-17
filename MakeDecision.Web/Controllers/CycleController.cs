@@ -1,24 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MakeDecision.Web.Models;
 
 namespace MakeDecision.Web.Controllers
-{   
+{
+    [Authorize(Roles = "Admin")]
     public class CycleController : Controller
     {
-		private readonly ICycleRepository cycleRepository;
+        private readonly ICycleRepository cycleRepository;
 
-		// If you are using Dependency Injection, you can delete the following constructor
+        // If you are using Dependency Injection, you can delete the following constructor
         public CycleController() : this(new CycleRepository())
         {
         }
 
         public CycleController(ICycleRepository cycleRepository)
         {
-			this.cycleRepository = cycleRepository;
+            this.cycleRepository = cycleRepository;
         }
 
         //
@@ -43,7 +40,7 @@ namespace MakeDecision.Web.Controllers
         public ActionResult Create()
         {
             return View();
-        } 
+        }
 
         //
         // POST: /Cycle/Create
@@ -51,21 +48,24 @@ namespace MakeDecision.Web.Controllers
         [HttpPost]
         public ActionResult Create(Cycle cycle)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 cycleRepository.InsertOrUpdate(cycle);
                 cycleRepository.Save();
                 return RedirectToAction("Index");
-            } else {
-				return View();
-			}
+            }
+            else
+            {
+                return View();
+            }
         }
-        
+
         //
         // GET: /Cycle/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
-             return View(cycleRepository.Find(id));
+            return View(cycleRepository.Find(id));
         }
 
         //
@@ -74,18 +74,21 @@ namespace MakeDecision.Web.Controllers
         [HttpPost]
         public ActionResult Edit(Cycle cycle)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 cycleRepository.InsertOrUpdate(cycle);
                 cycleRepository.Save();
                 return RedirectToAction("Index");
-            } else {
-				return View();
-			}
+            }
+            else
+            {
+                return View();
+            }
         }
 
         //
         // GET: /Cycle/Delete/5
- 
+
         public ActionResult Delete(int id)
         {
             return View(cycleRepository.Find(id));
@@ -105,11 +108,11 @@ namespace MakeDecision.Web.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing) {
+            if (disposing)
+            {
                 cycleRepository.Dispose();
             }
             base.Dispose(disposing);
         }
     }
 }
-

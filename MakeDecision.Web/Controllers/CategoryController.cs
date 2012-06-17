@@ -4,6 +4,7 @@ using MakeDecision.Web.Models;
 
 namespace MakeDecision.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository categoryRepository;
