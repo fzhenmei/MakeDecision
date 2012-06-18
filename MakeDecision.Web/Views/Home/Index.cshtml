@@ -1,8 +1,30 @@
 ﻿@{
     ViewBag.Title = "首页";
 }
-
+@*
+1. Get User Info
+2. Get User Department
+3. Get ALL Categories of Department
+4. Get newest 2 Datas of Category
+*@
 <h2>@ViewBag.Message</h2>
-<p>
-    开始使用本系统请在上面选择不同的功能。
-</p>
+@*分类循环*@
+<div>
+    <div>放置分类名称</div>
+    <div>
+        放置此分类最新的2条数据。
+        <table>
+            <tr>
+                <th>年份</th>
+                <th>周期</th>
+                <th>参考值</th>
+            </tr>
+            @*数据循环*@
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
