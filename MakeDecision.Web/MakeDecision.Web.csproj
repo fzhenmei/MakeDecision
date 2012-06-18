@@ -66,6 +66,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CycleController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\DepartmentUserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KeyDataController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
@@ -80,6 +81,8 @@
     <Compile Include="Models\DataInitializer.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\DepartmentRepository.cs" />
+    <Compile Include="Models\DepartmentUser.cs" />
+    <Compile Include="Models\DepartmentUserRepository.cs" />
     <Compile Include="Models\KeyDataRepository.cs" />
     <Compile Include="Models\MakeDecisionWebContext.cs" />
     <Compile Include="Models\KeyData.cs" />
@@ -254,6 +257,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Unit\_CreateOrEdit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\DepartmentUser\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\DepartmentUser\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\DepartmentUser\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\DepartmentUser\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\DepartmentUser\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\DepartmentUser\_CreateOrEdit.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -1,0 +1,20 @@
+@model MakeDecision.Web.Models.DepartmentUser
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>DepartmentUser</legend>
+
+    <div class="display-label">Department</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.Department).ToString()</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.UserName }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+

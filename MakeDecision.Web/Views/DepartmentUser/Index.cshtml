@@ -1,0 +1,35 @@
+@model IEnumerable<MakeDecision.Web.Models.DepartmentUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Department
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UserName }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UserName }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UserName })
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.Department).ToString()
+        </td>
+    </tr>
+}
+
+</table>
+
+

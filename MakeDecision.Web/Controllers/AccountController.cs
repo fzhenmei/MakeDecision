@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using MakeDecision.Web.Models;
@@ -7,6 +8,20 @@ namespace MakeDecision.Web.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IDepartmentRepository departmentRepository;
+        private readonly IDepartmentUserRepository departmentUserRepository;
+
+        public AccountController() : this(new DepartmentRepository(), new DepartmentUserRepository())
+        {
+        }
+
+        public AccountController(IDepartmentRepository departmentRepository,
+                                 IDepartmentUserRepository departmentUserRepository)
+        {
+            this.departmentRepository = departmentRepository;
+            this.departmentUserRepository = departmentUserRepository;
+        }
+
         //
         // GET: /Account/LogOn
 
@@ -61,6 +76,7 @@ namespace MakeDecision.Web.Controllers
         [Authorize]
         public ActionResult Register()
         {
+            PopulateDropDownList();
             return View();
         }
 
@@ -80,13 +96,15 @@ namespace MakeDecision.Web.Controllers
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
+                    var departmentUser = new DepartmentUser
+                                             {UserName = model.UserName, DepartmentId = model.DepartmentId};
+                    departmentUserRepository.InsertOrUpdate(departmentUser);
+                    departmentUserRepository.Save();
+
                     return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(createStatus));
-                }
+
+                ModelState.AddModelError("", ErrorCodeToString(createStatus));
             }
 
             // If we got this far, something failed, redisplay form
@@ -188,6 +206,12 @@ namespace MakeDecision.Web.Controllers
                     return
                         "系统故障，发生未知错误。";
             }
+        }
+
+        private void PopulateDropDownList(object selectedDepartment = null)
+        {
+            IOrderedQueryable<Department> departments = departmentRepository.All.OrderBy(c => c.DepartmentName);
+            ViewBag.DepartmentId = new SelectList(departments, "Id", "DepartmentName", selectedDepartment);
         }
 
         #endregion

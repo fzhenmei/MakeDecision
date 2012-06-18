@@ -45,6 +45,14 @@
                 @Html.ValidationMessageFor(m => m.ConfirmPassword)
             </div>
 
+            <div class="editor-label">
+                @Html.LabelFor(m => m.DepartmentId)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownList("DepartmentId", String.Empty)
+                @Html.ValidationMessageFor(model => model.DepartmentId)
+            </div>
+
             <p>
                 <input type="submit" value="注册" />
             </p>

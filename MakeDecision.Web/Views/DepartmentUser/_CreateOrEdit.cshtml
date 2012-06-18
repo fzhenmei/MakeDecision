@@ -1,0 +1,15 @@
+@model MakeDecision.Web.Models.DepartmentUser
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="editor-label">
+    Department
+</div>
+<div class="editor-field">
+    @Html.DropDownListFor(model => model.DepartmentId, ((IEnumerable<MakeDecision.Web.Models.Department>)ViewBag.PossibleDepartments).Select(option => new SelectListItem {
+        Text = Html.DisplayTextFor(_ => option).ToString(), 
+        Value = option.Id.ToString(),
+        Selected = (Model != null) && (option.Id == Model.DepartmentId)
+    }), "Choose...")
+    @Html.ValidationMessageFor(model => model.DepartmentId)
+</div>

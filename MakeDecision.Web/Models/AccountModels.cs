@@ -62,5 +62,8 @@ namespace MakeDecision.Web.Models
         [Display(Name = "确认密码")]
         [Compare("Password", ErrorMessage = "确认密码和密码不一致。")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "所在部门")]
+        public int DepartmentId { get; set; }
     }
 }

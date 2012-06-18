@@ -1,0 +1,23 @@
+@model MakeDecision.Web.Models.DepartmentUser
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>DepartmentUser</legend>
+
+    <div class="display-label">Department</div>
+    <div class="display-field">@Html.DisplayTextFor(_ => Model.Department).ToString()</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}
+
+
