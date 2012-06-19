@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using MakeDecision.Web.Models;
 
 namespace MakeDecision.Web.Controllers
@@ -30,8 +31,9 @@ namespace MakeDecision.Web.Controllers
         //
         // GET: /Category/
 
-        public ViewResult Index()
+        public ViewResult Index(int departmentId)
         {
+            ViewBag.DepartmentId = departmentId;
             return View(categoryRepository.AllIncluding(c => c.Department, c => c.Cycle, c => c.Unit));
         }
 
@@ -70,16 +72,15 @@ namespace MakeDecision.Web.Controllers
             {
                 categoryRepository.InsertOrUpdate(category);
                 categoryRepository.Save();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new RouteValueDictionary {{"departmentId", category.DepartmentId}});
             }
-            else
-            {
-                Department dept = departmentRepository.Find(category.DepartmentId);
-                category.DepartmentId = dept.Id;
-                category.Department = dept;
-                PopulateDropDownList();
-                return View(category);
-            }
+
+            Department dept = departmentRepository.Find(category.DepartmentId);
+            category.DepartmentId = dept.Id;
+            category.Department = dept;
+            PopulateDropDownList();
+            
+            return View(category);
         }
 
         //

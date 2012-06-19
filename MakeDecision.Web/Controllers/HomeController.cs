@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Web.Mvc;
 using MakeDecision.Web.Models;
 
@@ -22,16 +24,32 @@ namespace MakeDecision.Web.Controllers
 
         public ActionResult Index()
         {
-            IQueryable<DepartmentUser> departmentUser =
+            var departmentUser =
                 departmentUserRepository.AllIncluding(du => du.Department, du => du.Department.Categories).Where(
-                    du => du.UserName == User.Identity.Name);
-            //var keyDatas = keyDataRepository.All.Where(k => departmentUser.Select(c => c.Department.Categories.Select(ca => ca.Id)).con);
-            return Redirect("/KeyData");
+                    du => du.UserName == User.Identity.Name).ToList();
+            
+            var categories = new List<Category>();
+            foreach (var d in departmentUser.Select(c => c.Department))
+            {
+                categories.AddRange(d.Categories);
+            }
+
+            foreach (var category in categories)
+            {
+                category.KeyDatas = GetKeyDatas(category.Id).ToList();
+            }
+            
+            return View(categories);
         }
 
         public ActionResult About()
         {
             return View();
+        }
+
+        public IQueryable<KeyData> GetKeyDatas(int categoryId)
+        {
+            return keyDataRepository.All.Where(c => c.CategoryId == categoryId).OrderByDescending(c => c.Id).Take(2);
         }
     }
 }

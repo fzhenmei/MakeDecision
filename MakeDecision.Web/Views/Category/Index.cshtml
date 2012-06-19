@@ -7,7 +7,7 @@
 <h2>数据分类列表</h2>
 
 <p>
-    @Html.ActionLink("新建分类", "Create")
+    @Html.ActionLink("新建分类", "Create", new RouteValueDictionary {{"departmentId", ViewBag.DepartmentId}})
 </p>
 <table>
     <tr>

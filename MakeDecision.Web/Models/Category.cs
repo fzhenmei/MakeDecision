@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MakeDecision.Web.Models
 {
@@ -27,5 +28,7 @@ namespace MakeDecision.Web.Models
         public virtual Cycle Cycle { get; set; }
 
         public virtual Unit Unit { get; set; }
+
+        public ICollection<KeyData> KeyDatas { get; set; }
     }
 }

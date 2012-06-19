@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<MakeDecision.Web.Models.Category>
+@{
     ViewBag.Title = "首页";
 }
 @*
@@ -7,24 +8,35 @@
 3. Get ALL Categories of Department
 4. Get newest 2 Datas of Category
 *@
-<h2>@ViewBag.Message</h2>
 @*分类循环*@
-<div>
-    <div>放置分类名称</div>
-    <div>
-        放置此分类最新的2条数据。
-        <table>
+@foreach (var c in Model)
+{
+<div style="width: 550px;">
+    <div style="padding:10px 0 10px 0;height:30px;">
+        <span style="float: left">@c.CategoryName</span>
+        <span style="float: right">
+            @Html.ActionLink("添加", "Create", "KeyData", new RouteValueDictionary {{"categoryId", c.Id}}, null) | 
+            @Html.ActionLink("全部", "Index", "KeyData", new RouteValueDictionary { { "categoryId", c.Id } }, null)
+        </span>
+    </div>
+    <div style="padding-bottom:10px;">
+        @*放置此分类最新的2条数据。*@
+        <table style="width: 550px;">
             <tr>
                 <th>年份</th>
                 <th>周期</th>
                 <th>参考值</th>
             </tr>
+            @foreach (var d in c.KeyDatas)
+            {
             @*数据循环*@
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>@d.Year</td>
+                <td>@d.CycleValue</td>
+                <td>@d.Value</td>
             </tr>
+            }                
         </table>
     </div>
 </div>
+}
