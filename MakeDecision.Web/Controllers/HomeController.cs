@@ -24,6 +24,11 @@ namespace MakeDecision.Web.Controllers
 
         public ActionResult Index()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return View("Admin");
+            }
+
             var departmentUser =
                 departmentUserRepository.AllIncluding(du => du.Department, du => du.Department.Categories).Where(
                     du => du.UserName == User.Identity.Name).ToList();
