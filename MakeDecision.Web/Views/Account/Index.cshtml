@@ -4,6 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>用户列表</h2>
+<p>
+    @Html.ActionLink("添加用户", "Register", "Account")
+</p>
 <table style="width: 500px;">
     <tr>
         <th>
@@ -25,9 +28,9 @@
 			@Html.DisplayTextFor(_ => item.Department.DepartmentName).ToString()
         </td>
         <td>
-            @Html.ActionLink("数据", "Delete", "Account", new { userName = item.UserName}, null)
+            @Html.ActionLink("删除", "Delete", "Account", new { userName = item.UserName}, null)
         </td>
     </tr>
 }
 </table>
-@Html.Pager(20, 1, (int)ViewBag.TotalCount)
+@Html.Pager((int)ViewBag.PageSize, 1, (int)ViewBag.TotalCount)

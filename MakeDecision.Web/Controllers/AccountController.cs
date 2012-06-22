@@ -23,6 +23,7 @@ namespace MakeDecision.Web.Controllers
             this.departmentUserRepository = departmentUserRepository;
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Index(int? page)
         {
             if (page == null || page <= 0)
@@ -30,7 +31,7 @@ namespace MakeDecision.Web.Controllers
                 page = 1;
             }
 
-            ViewBag.PageSize = 20;
+            ViewBag.PageSize = 12;
 
             int recordCount;
             var users = (from MembershipUser user in Membership.Provider.GetAllUsers(page.Value - 1, (int)ViewBag.PageSize, out recordCount)
@@ -75,15 +76,11 @@ namespace MakeDecision.Web.Controllers
                     {
                         return Redirect(returnUrl);
                     }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    
+                    return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "用户名或密码不正确。");
-                }
+
+                ModelState.AddModelError("", "用户名或密码不正确。");
             }
 
             // If we got this far, something failed, redisplay form
@@ -117,26 +114,32 @@ namespace MakeDecision.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Attempt to register the user
-                MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, "null@null.com", null, null, true, null,
-                                      out createStatus);
-                Roles.AddUserToRole(model.UserName, "User");
-
-                if (createStatus == MembershipCreateStatus.Success)
+                try
                 {
-                    var departmentUser = new DepartmentUser
-                                             {UserName = model.UserName, DepartmentId = model.DepartmentId};
-                    departmentUserRepository.InsertOrUpdate(departmentUser);
-                    departmentUserRepository.Save();
+                    MembershipCreateStatus createStatus;
+                    Membership.CreateUser(model.UserName, model.Password, "null@null.com", null, null, true, null,
+                                          out createStatus);
+                    
+                    if (createStatus == MembershipCreateStatus.Success)
+                    {
+                        Roles.AddUserToRole(model.UserName, "User");
+                        var departmentUser = new DepartmentUser { UserName = model.UserName, DepartmentId = model.DepartmentId };
+                        departmentUserRepository.InsertOrUpdate(departmentUser);
+                        departmentUserRepository.Save();
 
-                    return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Account");
+                    }
+                    
+                    ModelState.AddModelError("", ErrorCodeToString(createStatus));
                 }
-
-                ModelState.AddModelError("", ErrorCodeToString(createStatus));
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                }
             }
 
             // If we got this far, something failed, redisplay form
+            PopulateDropDownList();
             return View(model);
         }
 
@@ -175,10 +178,8 @@ namespace MakeDecision.Web.Controllers
                 {
                     return RedirectToAction("ChangePasswordSuccess");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "旧密码不正确或者新密码不符合规则。");
-                }
+                
+                ModelState.AddModelError("", "旧密码不正确或者新密码不符合规则。");
             }
 
             // If we got this far, something failed, redisplay form
@@ -245,9 +246,25 @@ namespace MakeDecision.Web.Controllers
 
         #endregion
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(string username)
         {
-            throw new NotImplementedException();
+            var user = Membership.GetUser(username);
+            if (user != null)
+            {
+                return View(new UserModel {UserName = user.UserName});
+            }
+
+            return Redirect("Index");
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ActionName("Delete")]
+        public ActionResult DoDelete(string userName)
+        {
+            Membership.DeleteUser(userName);
+            return RedirectToAction("Index");
         }
     }
 }

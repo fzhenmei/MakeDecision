@@ -1,0 +1,21 @@
+﻿@using MakeDecision.Web.Models
+@model UserModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>删除</h2>
+<h3>你确定要删除吗？</h3>
+<fieldset>
+    <legend>用户</legend>
+    <div class="display-label">用户名</div>
+    <div class="display-field">@Model.UserName</div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="确定删除" /> |
+        @Html.ActionLink("返回分类列表", "Index")
+    </p>
+}
