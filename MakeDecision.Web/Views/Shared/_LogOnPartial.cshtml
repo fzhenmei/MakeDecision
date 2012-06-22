@@ -1,5 +1,6 @@
 ﻿@if(Request.IsAuthenticated) {
     <text>欢迎 <strong>@User.Identity.Name</strong>!
+    [ @Html.ActionLink("修改密码", "ChangePassword", "Account")]
     [ @Html.ActionLink("退出", "LogOff", "Account") ]</text>
 }
 else {
