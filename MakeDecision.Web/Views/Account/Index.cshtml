@@ -1,6 +1,33 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@model IEnumerable<MakeDecision.Web.Models.UserModel>
+@{
+    ViewBag.Title = "用户列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>用户列表</h2>
+<table style="width: 500px;">
+    <tr>
+        <th>
+            用户名
+        </th>
+        <th>
+            所属部门
+        </th>
+        <th>
+            
+        </th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+			@item.UserName
+        </td>
+        <td>
+			@Html.DisplayTextFor(_ => item.Department.DepartmentName).ToString()
+        </td>
+        <td>
+            @Html.ActionLink("数据", "Delete", "Account", new { userName = item.UserName}, null)
+        </td>
+    </tr>
+}
+</table>
+@Html.Pager(20, 1, (int)ViewBag.TotalCount)

@@ -61,4 +61,13 @@ namespace MakeDecision.Web.Models
         [Display(Name = "所在部门")]
         public int DepartmentId { get; set; }
     }
+
+    public class UserModel
+    {
+        [Display(Name = "用户名")]
+        public string UserName { get; set; }
+
+        [Display(Name = "所在部门")]
+        public Department Department { get; set; }
+    }
 }

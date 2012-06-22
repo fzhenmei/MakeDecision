@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -20,6 +21,34 @@ namespace MakeDecision.Web.Controllers
         {
             this.departmentRepository = departmentRepository;
             this.departmentUserRepository = departmentUserRepository;
+        }
+
+        public ActionResult Index(int? page)
+        {
+            if (page == null || page <= 0)
+            {
+                page = 1;
+            }
+
+            ViewBag.PageSize = 20;
+
+            int recordCount;
+            var users = (from MembershipUser user in Membership.Provider.GetAllUsers(page.Value - 1, (int)ViewBag.PageSize, out recordCount)
+                                     select user.UserName).ToList();
+            List<UserModel> userModels =
+                departmentUserRepository.All
+                    .Where(d => users.Contains(d.UserName))
+                    .Select(d => 
+                        new UserModel
+                            {
+                                UserName = d.UserName, 
+                                Department = d.Department
+                            })
+                    .ToList();
+
+            ViewBag.TotalCount = recordCount;
+
+            return View(userModels);
         }
 
         //
@@ -215,5 +244,10 @@ namespace MakeDecision.Web.Controllers
         }
 
         #endregion
+
+        public ActionResult Delete(string username)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
