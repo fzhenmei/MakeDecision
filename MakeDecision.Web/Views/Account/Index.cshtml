@@ -33,4 +33,4 @@
     </tr>
 }
 </table>
-@Html.Pager((int)ViewBag.PageSize, 1, (int)ViewBag.TotalCount)
+@Html.Pager((int)ViewBag.PageSize, (int)ViewBag.CurrentPage, (int)ViewBag.TotalCount)

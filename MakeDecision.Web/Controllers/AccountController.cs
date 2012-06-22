@@ -28,26 +28,33 @@ namespace MakeDecision.Web.Controllers
         {
             if (page == null || page <= 0)
             {
-                page = 1;
+                ViewBag.CurrentPage = 1;
+            }
+            else
+            {
+                ViewBag.CurrentPage = page;
             }
 
             ViewBag.PageSize = 12;
 
             int recordCount;
-            var users = (from MembershipUser user in Membership.Provider.GetAllUsers(page.Value - 1, (int)ViewBag.PageSize, out recordCount)
-                                     select user.UserName).ToList();
+            List<string> users =
+                (from MembershipUser user in
+                     Membership.Provider.GetAllUsers((int) ViewBag.CurrentPage - 1, (int) ViewBag.PageSize,
+                                                     out recordCount)
+                 select user.UserName).ToList();
             List<UserModel> userModels =
                 departmentUserRepository.All
                     .Where(d => users.Contains(d.UserName))
-                    .Select(d => 
-                        new UserModel
-                            {
-                                UserName = d.UserName, 
-                                Department = d.Department
-                            })
+                    .Select(d =>
+                            new UserModel
+                                {
+                                    UserName = d.UserName,
+                                    Department = d.Department
+                                })
                     .ToList();
 
-            ViewBag.TotalCount = recordCount;
+            ViewBag.TotalCount = recordCount > 0 ? recordCount - 1 : recordCount;/*减去Administrator*/
 
             return View(userModels);
         }
@@ -76,7 +83,7 @@ namespace MakeDecision.Web.Controllers
                     {
                         return Redirect(returnUrl);
                     }
-                    
+
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -119,17 +126,18 @@ namespace MakeDecision.Web.Controllers
                     MembershipCreateStatus createStatus;
                     Membership.CreateUser(model.UserName, model.Password, "null@null.com", null, null, true, null,
                                           out createStatus);
-                    
+
                     if (createStatus == MembershipCreateStatus.Success)
                     {
                         Roles.AddUserToRole(model.UserName, "User");
-                        var departmentUser = new DepartmentUser { UserName = model.UserName, DepartmentId = model.DepartmentId };
+                        var departmentUser = new DepartmentUser
+                                                 {UserName = model.UserName, DepartmentId = model.DepartmentId};
                         departmentUserRepository.InsertOrUpdate(departmentUser);
                         departmentUserRepository.Save();
 
                         return RedirectToAction("Index", "Account");
                     }
-                    
+
                     ModelState.AddModelError("", ErrorCodeToString(createStatus));
                 }
                 catch (Exception ex)
@@ -178,7 +186,7 @@ namespace MakeDecision.Web.Controllers
                 {
                     return RedirectToAction("ChangePasswordSuccess");
                 }
-                
+
                 ModelState.AddModelError("", "旧密码不正确或者新密码不符合规则。");
             }
 
@@ -192,6 +200,32 @@ namespace MakeDecision.Web.Controllers
         public ActionResult ChangePasswordSuccess()
         {
             return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(string username)
+        {
+            MembershipUser user = Membership.GetUser(username);
+            if (user != null)
+            {
+                return View(new UserModel {UserName = user.UserName});
+            }
+
+            return Redirect("Index");
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ActionName("Delete")]
+        public ActionResult DoDelete(string userName)
+        {
+            if (string.Compare(userName, "Administrator", true) == 0)
+            {
+                return RedirectToAction("Index");
+            }
+
+            Membership.DeleteUser(userName);
+            return RedirectToAction("Index");
         }
 
         #region Status Codes
@@ -245,26 +279,5 @@ namespace MakeDecision.Web.Controllers
         }
 
         #endregion
-
-        [Authorize(Roles = "Admin")]
-        public ActionResult Delete(string username)
-        {
-            var user = Membership.GetUser(username);
-            if (user != null)
-            {
-                return View(new UserModel {UserName = user.UserName});
-            }
-
-            return Redirect("Index");
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        [ActionName("Delete")]
-        public ActionResult DoDelete(string userName)
-        {
-            Membership.DeleteUser(userName);
-            return RedirectToAction("Index");
-        }
     }
 }
