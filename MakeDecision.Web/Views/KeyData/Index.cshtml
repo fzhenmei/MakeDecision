@@ -7,7 +7,7 @@
 <h2>数据管理</h2>
 
 <p>
-    @Html.ActionLink("新增", "Create", "KeyData", new { categoryId = 1 }, null)
+    @Html.ActionLink("新增", "Create", "KeyData", new { categoryId = (int)ViewBag.CategoryId }, null)
 </p>
 <table>
     <tr>

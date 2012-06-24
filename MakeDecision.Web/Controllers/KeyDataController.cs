@@ -27,9 +27,14 @@ namespace MakeDecision.Web.Controllers
         //
         // GET: /KeyData/
 
-        public ViewResult Index()
+        public ViewResult Index(int categoryId)
         {
-            return View(keydataRepository.AllIncluding(c => c.Category, c => c.Category.Unit, c => c.Category.Cycle));
+            ViewBag.CategoryId = categoryId;
+
+            return
+                View(
+                    keydataRepository.AllIncluding(c => c.Category, c => c.Category.Unit, c => c.Category.Cycle).Where(
+                        c => c.CategoryId == categoryId));
         }
 
         //
@@ -69,7 +74,7 @@ namespace MakeDecision.Web.Controllers
                 GetFile(keydata, file);
                 keydataRepository.Save();
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", new {categoryId = keydata.CategoryId});
             }
 
             if (keydata.CategoryId <= 0)
@@ -82,7 +87,7 @@ namespace MakeDecision.Web.Controllers
 
         private void GetFile(KeyData keydata, HttpPostedFileBase file)
         {
-            if (file.ContentLength > 0)
+            if (file != null && file.ContentLength > 0)
             {
                 var ext = Path.GetExtension(file.FileName);
                 var fileName = Guid.NewGuid().ToString("N") + ext;
@@ -111,7 +116,7 @@ namespace MakeDecision.Web.Controllers
             {
                 keydataRepository.InsertOrUpdate(keydata);
                 keydataRepository.Save();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { categoryId = keydata.CategoryId });
             }
 
             if (keydata.CategoryId <= 0)
