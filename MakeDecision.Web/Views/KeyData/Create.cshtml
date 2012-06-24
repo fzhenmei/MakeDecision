@@ -6,7 +6,8 @@
 
 <h2>添加数据</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Create", "KeyData", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>数据</legend>
@@ -22,5 +23,3 @@
 <div>
     @Html.ActionLink("返回列表", "Index")
 </div>
-
-

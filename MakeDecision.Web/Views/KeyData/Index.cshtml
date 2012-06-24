@@ -23,6 +23,7 @@
         <th>
             更新周期
         </th>
+        <th>文件挂载</th>
         <th>
             创建时间
         </th>
@@ -42,6 +43,9 @@
         </td>
         <td>
 			@item.CycleValue @Html.DisplayTextFor(_ => item.Category.Cycle.CycleName).ToString()
+        </td>
+        <td>
+            @Html.DisplayTextFor(_ => item.FilePath).ToString()
         </td>
         <td>
 			<div style="width: 150px;">@String.Format("{0:g}", item.CreateDate)</div>

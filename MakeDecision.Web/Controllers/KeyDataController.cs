@@ -1,5 +1,7 @@
 using System;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using MakeDecision.Web.Models;
 
@@ -43,28 +45,51 @@ namespace MakeDecision.Web.Controllers
 
         public ActionResult Create(int categoryId)
         {
+            return View(GetCategory(categoryId));
+        }
+
+        private KeyData GetCategory(int categoryId)
+        {
             Category category = categoryRepository.AllIncluding(c => c.Cycle).Where(c => c.Id == categoryId).Single();
             var keyData = new KeyData {Category = category, CategoryId = categoryId};
-            return View(keyData);
+            return keyData;
         }
 
         //
         // POST: /KeyData/Create
 
         [HttpPost]
-        public ActionResult Create(KeyData keydata)
+        public ActionResult Create(KeyData keydata, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
                 keydata.Year = DateTime.Now.Year;
                 keydata.CreateDate = DateTime.Now;
                 keydataRepository.InsertOrUpdate(keydata);
+                GetFile(keydata, file);
                 keydataRepository.Save();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Index", "Home");
             }
-            else
+
+            if (keydata.CategoryId <= 0)
             {
-                return View();
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(GetCategory(keydata.CategoryId));
+        }
+
+        private void GetFile(KeyData keydata, HttpPostedFileBase file)
+        {
+            if (file.ContentLength > 0)
+            {
+                var ext = Path.GetExtension(file.FileName);
+                var fileName = Guid.NewGuid().ToString("N") + ext;
+                var path = Path.Combine(Server.MapPath("~/Content/Uploads"), fileName);
+                keydata.FilePath = fileName;
+
+                file.SaveAs(path);
             }
         }
 
@@ -88,10 +113,13 @@ namespace MakeDecision.Web.Controllers
                 keydataRepository.Save();
                 return RedirectToAction("Index");
             }
-            else
+
+            if (keydata.CategoryId <= 0)
             {
-                return View();
+                return RedirectToAction("Index", "Home");
             }
+
+            return View(GetCategory(keydata.CategoryId));
         }
 
         //
@@ -121,6 +149,7 @@ namespace MakeDecision.Web.Controllers
                 keydataRepository.Dispose();
                 categoryRepository.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

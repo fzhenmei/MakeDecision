@@ -18,7 +18,6 @@ namespace MakeDecision.Web.Models
         /// </summary>
         public virtual Category Category { get; set; }
 
-
         [Display(Name = "参照值")]
         public decimal Value { get; set; }
 
@@ -33,6 +32,8 @@ namespace MakeDecision.Web.Models
         [Display(Name = "更新周期")]
         public int CycleValue { get; set; }
 
+        [Display(Name = "文件路径")]
+        public string FilePath { get; set; }
 
         /// <summary>
         /// 记录时间

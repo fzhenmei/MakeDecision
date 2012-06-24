@@ -279,5 +279,16 @@ namespace MakeDecision.Web.Controllers
         }
 
         #endregion
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                departmentRepository.Dispose();
+                departmentUserRepository.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
     }
 }

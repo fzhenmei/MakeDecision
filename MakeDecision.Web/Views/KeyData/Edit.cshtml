@@ -6,7 +6,8 @@
 
 <h2>ÐÞ¸Ä</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Edit", "KeyData", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Êý¾Ý</legend>

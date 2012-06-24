@@ -56,5 +56,16 @@ namespace MakeDecision.Web.Controllers
         {
             return keyDataRepository.All.Where(c => c.CategoryId == categoryId).OrderByDescending(c => c.Id).Take(2);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                departmentUserRepository.Dispose();
+                keyDataRepository.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
     }
 }
