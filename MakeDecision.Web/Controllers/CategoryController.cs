@@ -34,7 +34,10 @@ namespace MakeDecision.Web.Controllers
         public ViewResult Index(int departmentId)
         {
             ViewBag.DepartmentId = departmentId;
-            return View(categoryRepository.AllIncluding(c => c.Department, c => c.Cycle, c => c.Unit));
+            return
+                View(
+                    categoryRepository.AllIncluding(c => c.Department, c => c.Cycle, c => c.Unit).Where(
+                        c => c.DepartmentId == departmentId));
         }
 
         //
@@ -88,6 +91,7 @@ namespace MakeDecision.Web.Controllers
 
         public ActionResult Edit(int id)
         {
+            PopulateDropDownList();
             return View(categoryRepository.Find(id));
         }
 
@@ -103,10 +107,9 @@ namespace MakeDecision.Web.Controllers
                 categoryRepository.Save();
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return View();
-            }
+            
+            PopulateDropDownList();
+            return View();
         }
 
         //

@@ -1,26 +1,26 @@
 @model MakeDecision.Web.Models.Department
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "新建";
 }
 
-<h2>Create</h2>
+<h2>新建</h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Department</legend>
+        <legend>部门</legend>
 
 		@Html.Partial("_CreateOrEdit", Model)
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="创建部门" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("返回列表", "Index")
 </div>
 
 

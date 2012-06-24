@@ -1,25 +1,25 @@
 @model MakeDecision.Web.Models.Category
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "编辑";
 }
 
-<h2>Edit</h2>
+<h2>编辑</h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Category</legend>
+        <legend>分类</legend>
 
         @Html.HiddenFor(model => model.Id)
 		@Html.Partial("_CreateOrEdit", Model)
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="保存" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("返回列表", "Index")
 </div>

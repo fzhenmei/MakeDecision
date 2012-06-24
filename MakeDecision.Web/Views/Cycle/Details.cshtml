@@ -1,20 +1,20 @@
 @model MakeDecision.Web.Models.Cycle
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "明细";
 }
 
-<h2>Details</h2>
+<h2>明细</h2>
 
 <fieldset>
-    <legend>Cycle</legend>
+    <legend>周期</legend>
 
-    <div class="display-label">CycleName</div>
+    <div class="display-label">周期名称</div>
     <div class="display-field">@Model.CycleName</div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("编辑", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("返回列表", "Index")
 </p>
 
 
