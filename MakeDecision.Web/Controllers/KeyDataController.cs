@@ -27,9 +27,17 @@ namespace MakeDecision.Web.Controllers
         //
         // GET: /KeyData/
 
-        public ViewResult Index(int categoryId)
+        public ActionResult Index(int categoryId)
         {
+            var category = categoryRepository.AllIncluding(c => c.Unit).SingleOrDefault(c => c.Id == categoryId);
+            if (category == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.CategoryId = categoryId;
+            ViewBag.UnitLabel = category.Unit.UnitLabel;
+            ViewBag.UnitName = category.Unit.UnitName;
 
             return
                 View(
@@ -50,6 +58,7 @@ namespace MakeDecision.Web.Controllers
 
         public ActionResult Create(int categoryId)
         {
+            ViewBag.CategoryId = categoryId;
             return View(GetCategory(categoryId));
         }
 
@@ -74,7 +83,7 @@ namespace MakeDecision.Web.Controllers
                 GetFile(keydata, file);
                 keydataRepository.Save();
 
-                return RedirectToAction("Index", new {categoryId = keydata.CategoryId});
+                return RedirectToAction("Index", new { categoryId = keydata.CategoryId });
             }
 
             if (keydata.CategoryId <= 0)
@@ -110,12 +119,15 @@ namespace MakeDecision.Web.Controllers
         // POST: /KeyData/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(KeyData keydata)
+        public ActionResult Edit(KeyData keydata, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
+                keydata.CreateDate = DateTime.Now;
+                GetFile(keydata, file);
                 keydataRepository.InsertOrUpdate(keydata);
                 keydataRepository.Save();
+
                 return RedirectToAction("Index", new { categoryId = keydata.CategoryId });
             }
 
@@ -141,10 +153,16 @@ namespace MakeDecision.Web.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
+            var keydata = keydataRepository.Find(id);
+            if (keydata == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             keydataRepository.Delete(id);
             keydataRepository.Save();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { categoryId = keydata.CategoryId});
         }
 
         protected override void Dispose(bool disposing)

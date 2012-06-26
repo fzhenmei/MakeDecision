@@ -14,6 +14,12 @@
         <th>
             数据单位名称
         </th>
+        <th>
+            数据单位标签
+        </th>
+        <td>
+            小数位
+        </td>
         <th></th>
     </tr>
 
@@ -21,6 +27,12 @@
     <tr>
         <td>
 			@item.UnitName
+        </td>
+        <td>
+            @item.UnitLabel
+        </td>
+        <td>
+            @item.Digits
         </td>
         <td>
             @Html.ActionLink("编辑", "Edit", new { id=item.Id }) |

@@ -13,6 +13,8 @@
         <legend>数据</legend>
 
         @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Year)
+        @Html.HiddenFor(model => model.FilePath);
 		@Html.Partial("_CreateOrEdit", Model)
 
         <p>
@@ -22,5 +24,5 @@
 }
 
 <div>
-    @Html.ActionLink("返回列表", "Index")
+    @Html.ActionLink("返回列表", "Index", new { categoryId = Model.CategoryId})
 </div>

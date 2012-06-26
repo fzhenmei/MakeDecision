@@ -14,7 +14,7 @@
     <div class="display-field">@Html.DisplayTextFor(_ => Model.Category).ToString()</div>
 
     <div class="display-label">数据单位</div>
-    <div class="display-field">@Model.ValueUnit</div>
+    <div class="display-field">@Model.Category.Unit.UnitName</div>
 
     <div class="display-label">值</div>
     <div class="display-field">@Model.Value</div>
@@ -23,7 +23,7 @@
     <div class="display-field">@Model.Year</div>
 
     <div class="display-label">更新周期</div>
-    <div class="display-field">@Model.Cycle</div>
+    <div class="display-field">@Model.Category.Cycle.CycleName</div>
 
     <div class="display-label">创建日期</div>
     <div class="display-field">@String.Format("{0:g}", Model.CreateDate)</div>
@@ -31,7 +31,7 @@
 @using (Html.BeginForm()) {
     <p>
         <input type="submit" value="确定删除" /> |
-        @Html.ActionLink("返回列表", "Index")
+        @Html.ActionLink("返回列表", "Index", new {categoryId = Model.CategoryId})
     </p>
 }
 

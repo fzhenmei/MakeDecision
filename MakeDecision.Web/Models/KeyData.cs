@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel.DataAnnotations;
 
 namespace MakeDecision.Web.Models
@@ -39,5 +40,38 @@ namespace MakeDecision.Web.Models
         /// 记录时间
         /// </summary>
         public DateTime CreateDate { get; set; }
+
+        public override string ToString()
+        {
+            if (Category == null)
+            {
+                return Value.ToString("0.00");
+            }
+
+            if (Category.Unit == null)
+            {
+                return Value.ToString("0.00");
+            }
+
+            switch (Category.Unit.Digits)
+            {
+                case 0:
+                    return decimal.Ceiling(Value).ToString();
+                case 1:
+                    return Value.ToString("0.0");
+                case 2:
+                    return Value.ToString("0.00");
+                case 3:
+                    return Value.ToString("0.000");
+                case 4: 
+                    return Value.ToString("0.0000");
+                case 5:
+                    return Value.ToString("0.00000");
+                case 6:
+                    return Value.ToString("0.000000");
+                default:
+                    return Value.ToString("0.00");
+            }
+        }
     }
 }
