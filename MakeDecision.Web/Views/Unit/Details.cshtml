@@ -7,10 +7,10 @@
 <h2>数据单位明细</h2>
 
 <fieldset>
-    <legend>Unit</legend>
+    <legend>数据单位</legend>
 
     <div class="display-label">数据单位名称</div>
-    <div class="display-field">@Model.UnitName</div>
+    <div class="display-field" style="font-weight: bold">@Model.UnitName</div>
 
     <div class="display-label">数据单位标签</div>
     <div class="display-field">@Model.UnitLabel</div>
@@ -19,7 +19,7 @@
     <div class="display-field">@Model.Digits</div>
 </fieldset>
 <p>
-    @Html.ActionLink("编辑", "Edit", new { id=Model.Id }) |
+    @*@Html.ActionLink("编辑", "Edit", new { id=Model.Id }) |*@
     @Html.ActionLink("返回列表", "Index")
 </p>
 
