@@ -77,7 +77,6 @@ namespace MakeDecision.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                keydata.Year = DateTime.Now.Year;
                 keydata.CreateDate = DateTime.Now;
                 keydataRepository.InsertOrUpdate(keydata);
                 GetFile(keydata, file);

@@ -25,6 +25,8 @@ namespace MakeDecision.Web.Models
         /// <summary>
         /// 更新年份
         /// </summary>
+        [Display(Name = "年份")]
+        [Range(2000, 2099, ErrorMessage = "年份应该在2000-2009之间。")]
         public int Year { get; set; }
 
         /// <summary>

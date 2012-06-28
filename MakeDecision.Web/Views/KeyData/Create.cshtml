@@ -6,7 +6,7 @@
 
 <h2>Ìí¼ÓÊý¾Ý</h2>
 
-@using (Html.BeginForm("Create", "KeyData", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "KeyData", new {categoryId = ViewBag.CategoryId}, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
