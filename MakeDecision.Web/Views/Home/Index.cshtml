@@ -19,48 +19,6 @@
             @Html.ActionLink("全部", "Index", "KeyData", new RouteValueDictionary { { "categoryId", c.Id } }, null)
         </span>
     </div>
-    <div style="padding-bottom:10px;">
-        @*放置此分类最新的2条数据。*@
-        <table>
-            <tr>
-                <th >年份</th>
-                <th >周期(@c.Cycle.CycleName)</th>
-                <th >@c.Unit.UnitLabel<span>(@c.Unit.UnitName)</span></th>
-                <th >文件挂载</th>
-                <th >
-                    创建时间
-                </th>
-                <th ></th>
-            </tr>
-            @foreach (var d in c.KeyDatas)
-            {
-            @*数据循环*@
-            <tr>
-                <td><div style="width: 70px;">@d.Year</div></td>
-                <td><div style="width: 70px;">@d.CycleValue</div></td>
-                <td><div style="width: 100px;">@d.ToString()</div></td>
-                <td>
-                    @if(String.IsNullOrWhiteSpace(d.FilePath))
-                    {
-                        <div style="width: 250px;">无</div>
-                    }
-                    else
-                    {
-                        <div style="width: 250px;"><a href="@string.Format("/Content/Uploads/{0}", d.FilePath)">@d.FilePath</a></div>
-                    }
-                </td>
-                <td>
-			        <div style="width: 150px;">@String.Format("{0:g}", d.CreateDate)</div>
-                </td>
-                <td style="width: 90px;">
-                    <div style="width: 90px;">
-                        @Html.ActionLink("修改", "Edit", "KeyData", new { id = d.Id }, null) |
-                        @Html.ActionLink("删除", "Delete", "KeyData", new { id = d.Id }, null)
-                    </div>
-                </td>
-            </tr>
-            }                
-        </table>
-    </div>
+    @Html.Partial("~/Views/KeyData/SharedList.cshtml", c)
 </div>
 }

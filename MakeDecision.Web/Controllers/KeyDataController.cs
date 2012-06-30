@@ -27,25 +27,36 @@ namespace MakeDecision.Web.Controllers
         //
         // GET: /KeyData/
 
-        public ActionResult Index(int categoryId)
+        public ActionResult Index(int categoryId, int? page)
         {
             Category category =
                 categoryRepository.AllIncluding(c => c.Unit, c => c.Cycle).SingleOrDefault(c => c.Id == categoryId);
+
             if (category == null)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.CategoryId = categoryId;
-            ViewBag.UnitLabel = category.Unit.UnitLabel;
-            ViewBag.UnitName = category.Unit.UnitName;
-            ViewBag.CycleId = category.Cycle.Id;
-            ViewBag.CycleName = category.Cycle.CycleName;
+            if (page == null || page <= 0)
+            {
+                ViewBag.CurrentPage = 1;
+            }
+            else
+            {
+                ViewBag.CurrentPage = page;
+            }
 
-            return
-                View(
-                    keydataRepository.AllIncluding(c => c.Category, c => c.Category.Unit, c => c.Category.Cycle).Where(
-                        c => c.CategoryId == categoryId));
+            ViewBag.PageSize = 12;
+
+            var categories = keydataRepository.All
+                    .Where(c => c.CategoryId == categoryId);
+
+            ViewBag.TotalCount = categories.Count();
+
+            category.KeyDatas = categories.OrderByDescending(c => c.Id)
+                    .Skip(((int) ViewBag.CurrentPage - 1)*(int) ViewBag.PageSize).Take((int) ViewBag.PageSize).ToList();
+
+            return View(category);
         }
 
         //

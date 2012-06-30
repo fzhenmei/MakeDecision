@@ -1,4 +1,4 @@
-@model IEnumerable<MakeDecision.Web.Models.KeyData>
+@model MakeDecision.Web.Models.Category
 
 @{
     ViewBag.Title = "数据管理";
@@ -7,63 +7,8 @@
 <h2>数据管理</h2>
 
 <p>
-    @Html.ActionLink("新增", "Create", "KeyData", new { categoryId = (int)ViewBag.CategoryId }, null)
+    @Html.ActionLink("新增", "Create", "KeyData", new { categoryId = Model.Id }, null) |
+    @Html.ActionLink("返回首页", "Index", "Home")
 </p>
-<table>
-    <tr>
-        <th>
-            分类
-        </th>
-        <th>
-            @ViewBag.UnitLabel<span>(@ViewBag.UnitName)</span>
-        </th>
-        <th>
-            年份
-        </th>
-        <th>
-            更新周期(@ViewBag.CycleName)
-        </th>
-        <th>文件挂载</th>
-        <th>
-            创建时间
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-			<div style="width: 200px;">@Html.DisplayTextFor(_ => item.Category.CategoryName).ToString()</div>
-        </td>
-        <td>
-			<div style="width: 150px;">@item.ToString()</div>
-        </td>
-        <td>
-			@item.Year
-        </td>
-        <td>
-			@item.CycleValue
-        </td>
-        <td>
-            @if (String.IsNullOrWhiteSpace(item.FilePath))
-            {
-                <div style="width: 250px;">无</div>
-            }
-            else
-            {
-                <div style="width: 250px;"><a href="@string.Format("/Content/Uploads/{0}", item.FilePath)">@item.FilePath</a></div>
-            }
-        </td>
-        <td>
-			<div style="width: 150px;">@String.Format("{0:g}", item.CreateDate)</div>
-        </td>
-        <td>
-            @Html.ActionLink("编辑", "Edit", new { id = item.Id }) |
-            @*@Html.ActionLink("明细", "Details", new { id=item.Id }) |*@
-            @Html.ActionLink("删除", "Delete", new { id = item.Id })
-        </td>
-    </tr>
-}
-
-</table>
+@Html.Partial("SharedList", Model)
+@Html.Pager((int)ViewBag.PageSize, (int)ViewBag.CurrentPage, (int)ViewBag.TotalCount).Options( o => o.AddRouteValue("categoryId", Model.Id))

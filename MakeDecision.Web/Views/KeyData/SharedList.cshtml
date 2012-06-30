@@ -1,0 +1,54 @@
+﻿@model MakeDecision.Web.Models.Category
+           
+<div style="padding-bottom:10px;">
+    @*放置此分类最新的2条数据。*@
+    <table>
+        <tr>
+            <th >年份</th>
+            <th >周期(@Model.Cycle.CycleName)</th>
+            <th >@Model.Unit.UnitLabel<span>(@Model.Unit.UnitName)</span></th>
+            <th >文件挂载</th>
+            <th >
+                创建时间
+            </th>
+            <th ></th>
+        </tr>
+        @if(Model.KeyDatas == null || Model.KeyDatas.Count == 0)
+        {
+            <tr>
+                <td colspan="6"><div style="width: 816px; text-align: center">还没有添加数据。</div></td>
+            </tr>
+        }
+        else
+        {
+        foreach (var d in Model.KeyDatas)
+        {
+        @*数据循环*@
+        <tr>
+            <td><div style="width: 70px;">@d.Year</div></td>
+            <td><div style="width: 70px;">@d.CycleValue</div></td>
+            <td><div style="width: 120px;">@d.ToString()</div></td>
+            <td>
+                @if(String.IsNullOrWhiteSpace(d.FilePath))
+                {
+                    <div style="width: 260px;">无</div>
+                }
+                else
+                {
+                    <div style="width: 260px;"><a href="@string.Format("/Content/Uploads/{0}", d.FilePath)">@d.FilePath</a></div>
+                }
+            </td>
+            <td>
+			    <div style="width: 150px;">@String.Format("{0:g}", d.CreateDate)</div>
+            </td>
+            <td style="width: 90px;">
+                <div style="width: 90px;">
+                    @Html.ActionLink("修改", "Edit", "KeyData", new { id = d.Id }, null) |
+                    @Html.ActionLink("删除", "Delete", "KeyData", new { id = d.Id }, null)
+                </div>
+            </td>
+        </tr>
+        }
+        }                
+    </table>
+</div>
