@@ -72,7 +72,7 @@ namespace MakeDecision.Web.Controllers
             Category category = categoryRepository.AllIncluding(c => c.Cycle).Single(c => c.Id == categoryId);
             if (keyData == null)
             {
-                keyData = new KeyData { Year = DateTime.Now.Year, Category = category, CategoryId = categoryId };
+                keyData = new KeyData {Year = DateTime.Now.Year, Category = category, CategoryId = categoryId};
             }
 
             ViewBag.CategoryId = categoryId;
@@ -85,24 +85,42 @@ namespace MakeDecision.Web.Controllers
         // POST: /KeyData/Create
 
         [HttpPost]
-        public ActionResult Create(KeyData keydata, HttpPostedFileBase file)
+        public ActionResult Create(KeyData keyData, HttpPostedFileBase file)
         {
-            if (ModelState.IsValid)
+            if (
+                keydataRepository.All.Any(
+                    k =>
+                    k.CategoryId == keyData.CategoryId && k.Year == keyData.Year && k.CycleValue == keyData.CycleValue))
             {
-                keydata.CreateDate = DateTime.Now;
-                keydataRepository.InsertOrUpdate(keydata);
-                GetFile(keydata, file);
-                keydataRepository.Save();
-
-                return RedirectToAction("Index", new {categoryId = keydata.CategoryId});
+                ModelState.AddModelError("ShouldBeOnlyOne",
+                                         string.Format("无法保存数据：{0}年，周期为{1}的数据已经存在。", keyData.Year, keyData.CycleValue));
             }
 
-            if (keydata.CategoryId <= 0)
+            if (ModelState.IsValid)
+            {
+                keyData.CreateDate = DateTime.Now;
+                GetFile(keyData, file);
+
+                keydataRepository.InsertOrUpdate(keyData);
+                keydataRepository.Save();
+
+                return RedirectToAction("Index", new {categoryId = keyData.CategoryId});
+            }
+
+            if (keyData.CategoryId <= 0)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            return View(InitKeyData(keydata.CategoryId));
+            Category category = categoryRepository.AllIncluding(c => c.Cycle).Single(c => c.Id == keyData.CategoryId);
+            if (category == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            PopulateSelectList(category.CycleId);
+
+            return View(InitKeyData(keyData.CategoryId));
         }
 
         private void GetFile(KeyData keydata, HttpPostedFileBase file)
@@ -123,7 +141,7 @@ namespace MakeDecision.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            var keyData = keydataRepository.AllIncluding(k => k.Category).SingleOrDefault(k => k.Id == id);
+            KeyData keyData = keydataRepository.AllIncluding(k => k.Category).SingleOrDefault(k => k.Id == id);
             if (keyData == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -139,25 +157,37 @@ namespace MakeDecision.Web.Controllers
         // POST: /KeyData/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(KeyData keydata, HttpPostedFileBase file)
+        public ActionResult Edit(KeyData keyData, HttpPostedFileBase file)
         {
-            if (ModelState.IsValid)
+            ;
+            if (keydataRepository.All.Any(
+                k =>
+                k.CategoryId == keyData.CategoryId && k.Year == keyData.Year && k.CycleValue == keyData.CycleValue &&
+                k.Id != keyData.Id))
             {
-                keydata.CreateDate = DateTime.Now;
-                GetFile(keydata, file);
-                keydataRepository.InsertOrUpdate(keydata);
-                keydataRepository.Save();
-
-                return RedirectToAction("Index", new {categoryId = keydata.CategoryId});
+                ModelState.AddModelError("ShouldBeOnlyOne",
+                                         string.Format("无法保存数据：{0}年，周期为{1}的数据已经存在。", keyData.Year, keyData.CycleValue));
             }
 
-            if (keydata.CategoryId <= 0)
+
+            if (ModelState.IsValid)
+            {
+                keyData.CreateDate = DateTime.Now;
+                GetFile(keyData, file);
+
+                keydataRepository.InsertOrUpdate(keyData);
+                keydataRepository.Save();
+
+                return RedirectToAction("Index", new {categoryId = keyData.CategoryId});
+            }
+
+            if (keyData.CategoryId <= 0)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            var initedKeyData = InitKeyData(keydata.CategoryId, keydata);
-            PopulateSelectList(ViewBag.CycleId, keydata.CycleValue);
+            KeyData initedKeyData = InitKeyData(keyData.CategoryId, keyData);
+            PopulateSelectList(ViewBag.CycleId, keyData.CycleValue);
 
             return View(initedKeyData);
         }
@@ -207,7 +237,7 @@ namespace MakeDecision.Web.Controllers
                 case 6:
                     ViewData["CycleValue"] =
                         new SelectList(
-                            new [] {"上半年", "下半年"}, selectedValue);
+                            new[] {"上半年", "下半年"}, selectedValue);
                     break;
             }
         }

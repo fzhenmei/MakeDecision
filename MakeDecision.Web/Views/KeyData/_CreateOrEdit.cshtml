@@ -3,7 +3,10 @@
 @* This partial view defines form fields that will appear when creating and editing entities *@
 
 <div class="editor-label">
-    分类：@Html.DisplayTextFor(model => model.Category.CategoryName) @Html.HiddenFor(model => model.CategoryId)
+    分类：@Html.DisplayTextFor(model => model.Category.CategoryName) 
+    @Html.HiddenFor(model => model.CategoryId)
+    <br/>
+    @Html.ValidationMessage("ShouldBeOnlyOne")
 </div>
 <div class="editor-label">
     @Html.LabelFor(model => model.Year)
