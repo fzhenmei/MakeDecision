@@ -33,7 +33,7 @@ namespace MakeDecision.Web.Models
         /// 本数据更新周期
         /// </summary>
         [Display(Name = "更新周期")]
-        public int CycleValue { get; set; }
+        public string CycleValue { get; set; }
 
         [Display(Name = "文件路径")]
         public string FilePath { get; set; }

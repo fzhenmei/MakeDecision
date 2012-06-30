@@ -16,9 +16,27 @@
     @Html.LabelFor(model => model.CycleValue)
 </div>
 <div class="editor-field">
-    @Html.EditorFor(model => model.CycleValue)
+    @{
+        var cycleId = (int)ViewBag.CycleId;
+        switch (cycleId)
+        {
+            case 1:
+            case 3:
+            case 4:    
+                @Html.EditorFor(model => model.CycleValue)
+                break;
+            case 2:
+            case 5:
+            case 6:
+                @Html.DropDownList("CycleValue", string.Empty)      
+                break;
+            default:
+                @Html.EditorFor(model => model.CycleValue)
+           break;
+        }
+    }
     @Html.ValidationMessageFor(model => model.CycleValue)
-    @Html.DisplayTextFor(model => model.Category.Cycle.CycleName).ToString();
+    @Html.DisplayTextFor(model => model.Category.Cycle.CycleName).ToString()
 </div>
 <div class="editor-label">
     @Html.LabelFor(model => model.Value)

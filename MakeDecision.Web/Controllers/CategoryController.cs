@@ -91,8 +91,9 @@ namespace MakeDecision.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            PopulateDropDownList();
-            return View(categoryRepository.Find(id));
+            var category = categoryRepository.Find(id);
+            PopulateDropDownList(category.CycleId, category.UnitId);
+            return View(category);
         }
 
         //
@@ -105,11 +106,11 @@ namespace MakeDecision.Web.Controllers
             {
                 categoryRepository.InsertOrUpdate(category);
                 categoryRepository.Save();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new {departmentId = category.DepartmentId});
             }
             
             PopulateDropDownList();
-            return View();
+            return View(category);
         }
 
         //

@@ -29,7 +29,8 @@ namespace MakeDecision.Web.Controllers
 
         public ActionResult Index(int categoryId)
         {
-            var category = categoryRepository.AllIncluding(c => c.Unit).SingleOrDefault(c => c.Id == categoryId);
+            Category category =
+                categoryRepository.AllIncluding(c => c.Unit, c => c.Cycle).SingleOrDefault(c => c.Id == categoryId);
             if (category == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -38,6 +39,8 @@ namespace MakeDecision.Web.Controllers
             ViewBag.CategoryId = categoryId;
             ViewBag.UnitLabel = category.Unit.UnitLabel;
             ViewBag.UnitName = category.Unit.UnitName;
+            ViewBag.CycleId = category.Cycle.Id;
+            ViewBag.CycleName = category.Cycle.CycleName;
 
             return
                 View(
@@ -58,14 +61,23 @@ namespace MakeDecision.Web.Controllers
 
         public ActionResult Create(int categoryId)
         {
-            ViewBag.CategoryId = categoryId;
-            return View(GetCategory(categoryId));
+            KeyData keyData = InitKeyData(categoryId);
+            PopulateSelectList(ViewBag.CycleId);
+
+            return View(keyData);
         }
 
-        private KeyData GetCategory(int categoryId)
+        private KeyData InitKeyData(int categoryId, KeyData keyData = null)
         {
-            Category category = categoryRepository.AllIncluding(c => c.Cycle).Where(c => c.Id == categoryId).Single();
-            var keyData = new KeyData {Category = category, CategoryId = categoryId};
+            Category category = categoryRepository.AllIncluding(c => c.Cycle).Single(c => c.Id == categoryId);
+            if (keyData == null)
+            {
+                keyData = new KeyData { Year = DateTime.Now.Year, Category = category, CategoryId = categoryId };
+            }
+
+            ViewBag.CategoryId = categoryId;
+            ViewBag.CycleId = category.Cycle.Id;
+
             return keyData;
         }
 
@@ -82,7 +94,7 @@ namespace MakeDecision.Web.Controllers
                 GetFile(keydata, file);
                 keydataRepository.Save();
 
-                return RedirectToAction("Index", new { categoryId = keydata.CategoryId });
+                return RedirectToAction("Index", new {categoryId = keydata.CategoryId});
             }
 
             if (keydata.CategoryId <= 0)
@@ -90,16 +102,16 @@ namespace MakeDecision.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return View(GetCategory(keydata.CategoryId));
+            return View(InitKeyData(keydata.CategoryId));
         }
 
         private void GetFile(KeyData keydata, HttpPostedFileBase file)
         {
             if (file != null && file.ContentLength > 0)
             {
-                var ext = Path.GetExtension(file.FileName);
-                var fileName = Guid.NewGuid().ToString("N") + ext;
-                var path = Path.Combine(Server.MapPath("~/Content/Uploads"), fileName);
+                string ext = Path.GetExtension(file.FileName);
+                string fileName = Guid.NewGuid().ToString("N") + ext;
+                string path = Path.Combine(Server.MapPath("~/Content/Uploads"), fileName);
                 keydata.FilePath = fileName;
 
                 file.SaveAs(path);
@@ -111,7 +123,16 @@ namespace MakeDecision.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View(keydataRepository.Find(id));
+            var keyData = keydataRepository.AllIncluding(k => k.Category).SingleOrDefault(k => k.Id == id);
+            if (keyData == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            InitKeyData(keyData.CategoryId, keyData);
+            PopulateSelectList(keyData.Category.CycleId, keyData.CycleValue);
+
+            return View(keyData);
         }
 
         //
@@ -127,7 +148,7 @@ namespace MakeDecision.Web.Controllers
                 keydataRepository.InsertOrUpdate(keydata);
                 keydataRepository.Save();
 
-                return RedirectToAction("Index", new { categoryId = keydata.CategoryId });
+                return RedirectToAction("Index", new {categoryId = keydata.CategoryId});
             }
 
             if (keydata.CategoryId <= 0)
@@ -135,7 +156,10 @@ namespace MakeDecision.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return View(GetCategory(keydata.CategoryId));
+            var initedKeyData = InitKeyData(keydata.CategoryId, keydata);
+            PopulateSelectList(ViewBag.CycleId, keydata.CycleValue);
+
+            return View(initedKeyData);
         }
 
         //
@@ -152,7 +176,7 @@ namespace MakeDecision.Web.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            var keydata = keydataRepository.Find(id);
+            KeyData keydata = keydataRepository.Find(id);
             if (keydata == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -161,7 +185,31 @@ namespace MakeDecision.Web.Controllers
             keydataRepository.Delete(id);
             keydataRepository.Save();
 
-            return RedirectToAction("Index", new { categoryId = keydata.CategoryId});
+            return RedirectToAction("Index", new {categoryId = keydata.CategoryId});
+        }
+
+        private void PopulateSelectList(int cycleId, object selectedValue = null)
+        {
+            switch (cycleId)
+            {
+                case 2:
+                    ViewData["CycleValue"] =
+                        new SelectList(
+                            new[] {"1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"},
+                            selectedValue);
+                    break;
+                case 5:
+                    ViewData["CycleValue"] =
+                        new SelectList(
+                            new[] {"1季度", "2季度", "3季度", "4季度"},
+                            selectedValue);
+                    break;
+                case 6:
+                    ViewData["CycleValue"] =
+                        new SelectList(
+                            new [] {"上半年", "下半年"}, selectedValue);
+                    break;
+            }
         }
 
         protected override void Dispose(bool disposing)

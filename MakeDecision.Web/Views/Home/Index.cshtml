@@ -24,7 +24,7 @@
         <table>
             <tr>
                 <th >年份</th>
-                <th >周期</th>
+                <th >周期(@c.Cycle.CycleName)</th>
                 <th >@c.Unit.UnitLabel<span>(@c.Unit.UnitName)</span></th>
                 <th >文件挂载</th>
                 <th >
@@ -42,11 +42,11 @@
                 <td>
                     @if(String.IsNullOrWhiteSpace(d.FilePath))
                     {
-                        <div style="width: 350px;">无</div>
+                        <div style="width: 250px;">无</div>
                     }
                     else
                     {
-                        <div style="width: 350px;"><a href="@string.Format("/Content/Uploads/{0}", d.FilePath)">@d.FilePath</a></div>
+                        <div style="width: 250px;"><a href="@string.Format("/Content/Uploads/{0}", d.FilePath)">@d.FilePath</a></div>
                     }
                 </td>
                 <td>
