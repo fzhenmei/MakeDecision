@@ -1,10 +1,10 @@
 @model MakeDecision.Web.Models.Category
 
 @{
-    ViewBag.Title = "数据管理";
+    ViewBag.Title = "[" + Model.CategoryName + "] 数据管理";
 }
 
-<h2>数据管理</h2>
+<h2>[@Model.CategoryName] 数据管理</h2>
 
 <p>
     @Html.ActionLink("新增", "Create", "KeyData", new { categoryId = Model.Id }, null) |
