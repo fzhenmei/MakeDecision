@@ -109,6 +109,11 @@ namespace MakeDecision.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                if (keyData.CycleValue == null)
+                {
+                    keyData.CycleValue = keyData.Year.ToString();
+                }
+
                 keyData.CreateDate = DateTime.Now;
                 GetFile(keyData, file);
 
@@ -183,6 +188,11 @@ namespace MakeDecision.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                if (keyData.CycleValue == null)
+                {
+                    keyData.CycleValue = keyData.Year.ToString();
+                }
+
                 keyData.CreateDate = DateTime.Now;
                 GetFile(keyData, file);
 
