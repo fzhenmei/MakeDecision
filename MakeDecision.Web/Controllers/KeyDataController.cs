@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -48,12 +49,12 @@ namespace MakeDecision.Web.Controllers
 
             ViewBag.PageSize = 12;
 
-            var categories = keydataRepository.All
+            var keyDatas = keydataRepository.All
                     .Where(c => c.CategoryId == categoryId);
 
-            ViewBag.TotalCount = categories.Count();
+            ViewBag.TotalCount = keyDatas.Count();
 
-            category.KeyDatas = categories.OrderByDescending(c => c.Id)
+            category.KeyDatas = keyDatas.OrderByDescending(c => c.Id)
                     .Skip(((int) ViewBag.CurrentPage - 1)*(int) ViewBag.PageSize).Take((int) ViewBag.PageSize).ToList();
 
             return View(category);
@@ -98,6 +99,11 @@ namespace MakeDecision.Web.Controllers
         [HttpPost]
         public ActionResult Create(KeyData keyData, HttpPostedFileBase file)
         {
+            if (keyData.CycleValue == null)
+            {
+                keyData.CycleValue = keyData.Year.ToString(CultureInfo.InvariantCulture);
+            }
+
             if (
                 keydataRepository.All.Any(
                     k =>
@@ -109,11 +115,6 @@ namespace MakeDecision.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                if (keyData.CycleValue == null)
-                {
-                    keyData.CycleValue = keyData.Year.ToString();
-                }
-
                 keyData.CreateDate = DateTime.Now;
                 GetFile(keyData, file);
 
@@ -143,10 +144,10 @@ namespace MakeDecision.Web.Controllers
         {
             if (file != null && file.ContentLength > 0)
             {
-                string ext = Path.GetExtension(file.FileName);
-                string fileName = Guid.NewGuid().ToString("N") + ext;
-                string path = Path.Combine(Server.MapPath("~/Content/Uploads"), fileName);
-                keydata.FilePath = fileName;
+                var category = categoryRepository.Find(keydata.CategoryId);
+                var filePath = new FilePathManager().GetFilePath(category.CategoryName);
+                string path = Path.Combine(filePath, file.FileName);
+                keydata.FilePath = path;
 
                 file.SaveAs(path);
             }

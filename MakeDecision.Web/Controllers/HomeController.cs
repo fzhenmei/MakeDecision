@@ -44,7 +44,7 @@ namespace MakeDecision.Web.Controllers
                 category.KeyDatas = GetKeyDatas(category.Id).ToList();
             }
             
-            return View(categories);
+            return View(categories.OrderBy(c => c.CategoryName));
         }
 
         public ActionResult About()

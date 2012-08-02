@@ -31,8 +31,8 @@ namespace MakeDecision.Web.Models
             return FilePathConfig.Elements()
                 .Any(x =>
                          {
-                             XAttribute xAttribute = x.Attribute("Name");
-                             return xAttribute != null && xAttribute.ToString() == categoryName;
+                             XAttribute xAttribute = x.Attribute("name");
+                             return xAttribute != null && xAttribute.Value == categoryName;
                          });
         }
 
@@ -42,13 +42,9 @@ namespace MakeDecision.Web.Models
                 .Where(x =>
                            {
                                XAttribute xAttribute = x.Attribute("name");
-                               return xAttribute != null && xAttribute.ToString() == categoryName;
+                               return xAttribute != null && xAttribute.Value == categoryName;
                            })
-                .Select(x =>
-                            {
-                                XAttribute attribute = x.Attribute("path");
-                                return attribute != null ? attribute.ToString() : string.Empty;
-                            })
+                .Select(x => x.Value)
                 .FirstOrDefault();
         }
     }

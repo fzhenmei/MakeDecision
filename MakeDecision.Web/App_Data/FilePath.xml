@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+1. 要上传文件的分类就在这里按照下面的示例增加一条记录，注意此文件区分大小写。
+2. 分类名要和系统中的分类名一模一样。
+-->
 <filePath>
-  <category name="线损率" path="c:\upload1"></category>
-  <category name="综合电压合格率" path="c:\upload2"></category>
+  <category name="线损率">c:\upload1</category>
+  <category name="综合电压合格率">c:\upload2</category>
 </filePath>
