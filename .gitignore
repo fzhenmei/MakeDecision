@@ -166,3 +166,6 @@ pip-log.txt
 .DS_Store
 
 Publish
+
+/Publish.rar
+/MakeDecision.Web/MakeDecision.Web.Publish.xml
