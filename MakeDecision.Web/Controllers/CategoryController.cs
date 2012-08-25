@@ -125,12 +125,12 @@ namespace MakeDecision.Web.Controllers
         // POST: /Category/Delete/5
 
         [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int departmentId)
         {
             categoryRepository.Delete(id);
             categoryRepository.Save();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new {departmentId});
         }
 
         protected override void Dispose(bool disposing)

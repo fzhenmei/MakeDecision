@@ -7,6 +7,7 @@
 <h2>删除</h2>
 
 <h3>你确定要删除吗？</h3>
+
 <fieldset>
     <legend>分类</legend>
 
@@ -22,7 +23,8 @@
 @using (Html.BeginForm()) {
     <p>
         <input type="submit" value="确定删除" /> |
-        @Html.ActionLink("返回分类列表", "Index")
+        @Html.HiddenFor(c => c.DepartmentId)
+        @Html.ActionLink("返回分类列表", "Index", new { departmentId = Model.DepartmentId})
     </p>
 }
 
