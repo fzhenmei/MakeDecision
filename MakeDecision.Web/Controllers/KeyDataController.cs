@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MakeDecision.Web.Models;
+using NLog;
 
 namespace MakeDecision.Web.Controllers
 {
@@ -13,6 +14,7 @@ namespace MakeDecision.Web.Controllers
     {
         private readonly ICategoryRepository categoryRepository;
         private readonly IKeyDataRepository keydataRepository;
+        private static Logger log = LogManager.GetCurrentClassLogger();
 
         // If you are using Dependency Injection, you can delete the following constructor
         public KeyDataController() : this(new KeyDataRepository(), new CategoryRepository())
@@ -148,12 +150,18 @@ namespace MakeDecision.Web.Controllers
                 var filePath = new FilePathManager().GetFilePath(category.CategoryName);
                 if (string.IsNullOrWhiteSpace(filePath))
                 {
+                    log.Warn("File path is empty.");
                     filePath = Server.MapPath("~/Content/Uploads");
                 }
                 string path = Path.Combine(filePath, file.FileName);
                 keydata.FilePath = path;
 
                 file.SaveAs(path);
+                log.Info("A file store in {0}", path);
+            }
+            else
+            {
+                log.Debug("no file.");
             }
         }
 

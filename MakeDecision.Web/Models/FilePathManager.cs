@@ -42,7 +42,7 @@ namespace MakeDecision.Web.Models
                 .Where(x =>
                            {
                                XAttribute xAttribute = x.Attribute("name");
-                               return xAttribute != null && xAttribute.Value == categoryName;
+                               return xAttribute != null && xAttribute.Value.Trim() == categoryName.Trim();
                            })
                 .Select(x => x.Value)
                 .FirstOrDefault();
