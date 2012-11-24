@@ -146,6 +146,10 @@ namespace MakeDecision.Web.Controllers
             {
                 var category = categoryRepository.Find(keydata.CategoryId);
                 var filePath = new FilePathManager().GetFilePath(category.CategoryName);
+                if (string.IsNullOrWhiteSpace(filePath))
+                {
+                    filePath = Server.MapPath("~/Content/Uploads");
+                }
                 string path = Path.Combine(filePath, file.FileName);
                 keydata.FilePath = path;
 
